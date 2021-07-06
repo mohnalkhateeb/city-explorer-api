@@ -30,7 +30,7 @@ server.get('/test',(request,response)=>{
 server.get('/getweather',(req,res)=>{
     console.log(req.query);
     let selectedcity = weatherdata.find (city =>{
-        if(city.city_name == req.query.city_name && city.lat==req.query.lat && city.lon ==req.query.lon)  {
+        if(city.city_name == req.query.city_name )  {
             return city
         }
     })

@@ -10,6 +10,7 @@ const cors = require('cors');
 const weatherdata = require('./data/weather.json')
 const gotomovies = require('./modules/movies')
 const weatherforecast = require('./modules/weather')
+const yelpbes = require('./modules/yelp')
 const server = express();
 const PORT = process.env.PORT;
 server.use(cors()); 
@@ -25,6 +26,7 @@ server.get('/test',(request,response)=>{
 server.get('/getweather',oldWeather)
 server.get('/weather_forecast',weatherforecast)
 server.get('/movies', gotomovies)
+server.get('/yelp', gotomovies)
 // function getweather(req,res)
 // {
     

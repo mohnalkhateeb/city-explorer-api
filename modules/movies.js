@@ -2,23 +2,35 @@
 
 const axios = require('axios'); 
 module.exports = getMovies; 
-
-
+let recent=0;
+let inMemory = {} 
 function getMovies(req,res)
 {
     let city_query = req.query.city_name
     let movie_url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${city_query}`
+    if (inMemory[city_query] !== undefined && recent < 10)
+    {
+        res.send(inMemory[city_query]);
+        recent++
+    }
+    else{
+        inMemory[city_query]={}
     axios
     .get(movie_url)
     .then(movies=>{
         // console.log(movies.data.results)
+        
         const movies_arr = movies.data.results.map(result => new Movies(result)) 
         //  console.log(movies_arr)
+        inMemory[city_query] = movies_arr
         res.status(200).send(movies_arr) 
     })
     .catch(error=>{
         res.status(500).send(error)
     })
+    recent++
+}
+console.log(recent)
 }
 
   

@@ -10,7 +10,7 @@ const cors = require('cors');
 const weatherdata = require('./data/weather.json')
 const gotomovies = require('./modules/movies')
 const weatherforecast = require('./modules/weather')
-const yelpbes = require('./modules/yelp')
+
 const server = express();
 const PORT = process.env.PORT;
 server.use(cors()); 
@@ -26,7 +26,7 @@ server.get('/test',(request,response)=>{
 server.get('/getweather',oldWeather)
 server.get('/weather_forecast',weatherforecast)
 server.get('/movies', gotomovies)
-server.get('/yelp', gotomovies)
+
 // function getweather(req,res)
 // {
     
@@ -47,16 +47,22 @@ server.get('/yelp', gotomovies)
 // }
 function oldWeather(req,res)
 {
+    
     console.log(req.query);
     let selectedcity = weatherdata.find(city =>{
         if(city.city_name == req.query.city_name )  {
             return city
         }
     })
+    if(selectedcity.data !== undefined)
+    {
     const forecast_arr = selectedcity.data.map((forecast)=> new WeatherOld(forecast))
         // console.log(forecast_arr)
         res.status(200).send(forecast_arr) 
     // res.status(200).send(selectedcity);
+    }
+    else {res.status(200).send(city_name)}
+    
 }
 server.get('*',(req,res)=>{
     res.status(404).send('NOT FOUND')
